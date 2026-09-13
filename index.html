@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Rajarathinam | Developer Workspace</title>
-
 <style>
 :root{
     --bg:#0f172a;
@@ -17,39 +16,31 @@
     --blue:#3b82f6;
     --tab-active:#2563eb;
 }
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     font-family:Segoe UI,Arial,sans-serif;
 }
-
 body{
     background:var(--bg);
     color:var(--text);
     padding:15px;
 }
-
 .container{
     max-width:1600px;
     margin:auto;
 }
-
 .header{
     text-align:center;
     margin-bottom:20px;
 }
-
 .header h1{
     font-size:28px;
-    margin-bottom:5px;
     background: linear-gradient(135deg, #60a5fa, #2563eb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
-/* TAB NAVIGATION ENGINE */
 .tab-container {
     display: flex;
     flex-wrap: wrap;
@@ -58,7 +49,6 @@ body{
     border-bottom: 2px solid var(--border);
     padding-bottom: 10px;
 }
-
 .tab-btn {
     background: #334155;
     color: var(--muted);
@@ -70,66 +60,54 @@ body{
     font-weight: 600;
     transition: all 0.2s ease;
 }
-
 .tab-btn:hover {
     background: #475569;
     color: white;
 }
-
 .tab-btn.active {
     background: var(--tab-active);
     color: white;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
-
 .tab-content {
-    display: none; /* Hidden by default */
+    display: none;
 }
-
 .tab-content.active {
-    display: block; /* Visible when active */
+    display: block;
 }
-
-/* TAX CALCULATION LAYOUT ROWS */
 .dashboard{
     display:grid;
     grid-template-columns:1fr;
     gap:16px;
 }
-
 .card{
     background:var(--card);
     border:1px solid var(--border);
     border-radius:16px;
     padding:16px;
 }
-
 .card h2{
     font-size:1.25rem;
     margin-bottom:15px;
     border-bottom: 1px solid var(--border);
     padding-bottom: 8px;
 }
-
 .section{
     border:1px solid var(--border);
     border-radius:10px;
     padding:12px;
     margin-top:12px;
 }
-
 .section h3 {
     font-size:1rem;
     margin-bottom:10px;
 }
-
 label{
     display:block;
     margin-bottom:4px;
     color:var(--muted);
     font-size:13px;
 }
-
 input{
     width:100%;
     padding:10px;
@@ -140,7 +118,6 @@ input{
     color:white;
     font-size:15px;
 }
-
 .row{
     display:flex;
     justify-content:space-between;
@@ -148,21 +125,17 @@ input{
     border-bottom:1px solid rgba(255,255,255,.08);
     font-size:14px;
 }
-
 .row:last-child {
     border-bottom:none;
 }
-
 .summary{
     margin-top:12px;
     padding:12px;
     border-radius:10px;
     background:#10264d;
 }
-
 .summary h3 { font-size:14px; }
 .summary h1 { font-size:24px; }
-
 .total-box{
     margin-top:15px;
     text-align:center;
@@ -170,15 +143,11 @@ input{
     border-radius:12px;
     background:linear-gradient(135deg,#2563eb,#1d4ed8);
 }
-
 .total-box div { font-size:12px; font-weight:600;}
 .total-box h1{ font-size:32px; margin-top:4px;}
-
 .green{color:var(--green); font-weight:600;}
 .red{color:var(--red); font-weight:600;}
 .blue{color:var(--blue); font-weight:600;}
-
-/* PORTFOLIO CONTENT STYLING */
 .portfolio-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -187,32 +156,6 @@ input{
     max-width: 1000px;
     margin: 0 auto;
 }
-
-.portfolio-card h2 {
-    color: #60a5fa;
-    margin-bottom: 15px;
-}
-
-.portfolio-card p {
-    color: var(--muted);
-    margin-bottom: 20px;
-    line-height: 1.6;
-}
-
-.code-block {
-    background: #0f172a;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    font-family: Consolas, Monaco, monospace;
-    font-size: 14px;
-    color: #38bdf8;
-    overflow-x: auto;
-    white-space: pre;
-    margin-bottom: 20px;
-}
-
-/* RESPONSIVE LAYOUT RESPONSIVENESS */
 @media(min-width:768px){
     body { padding:25px; }
     .header h1 { font-size:36px; }
@@ -220,7 +163,6 @@ input{
     .section { padding:15px; }
     .total-box h1 { font-size:38px; }
 }
-
 @media(min-width:1024px){
     .dashboard{
         grid-template-columns:1.2fr 1fr 1fr;
@@ -230,16 +172,11 @@ input{
 }
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
     <div class="header">
         <h1>DEVELOPER WORKSPACE</h1>
     </div>
-
-    <!-- Tab Buttons Layout -->
     <div class="tab-container">
         <button class="tab-btn active" onclick="switchTab(event, 'tax-tab')">Income Tax Calculator</button>
         <button class="tab-btn" onclick="switchTab(event, 'cpp-tab')">C++</button>
@@ -248,30 +185,24 @@ input{
         <button class="tab-btn" onclick="switchTab(event, 'exp-tab')">Professional Experience</button>
     </div>
 
-    <!-- TAB 1: INCOME TAX CALCULATOR (DEFAULT TAB) -->
+    <!-- TAB 1: INCOME TAX CALCULATOR -->
     <div id="tax-tab" class="tab-content active">
         <div class="dashboard">
-            <!-- COLUMN 1: INPUT DETAILS -->
             <div class="card">
                 <h2>Input Details</h2>
                 <label for="salary">Salary Income</label>
                 <input id="salary" type="number" value="800000" oninput="calculateTax()">
-
                 <div class="section">
                     <h3>Fixed Deposit Estimator</h3>
                     <label for="fdPrincipal">Principal</label>
                     <input id="fdPrincipal" type="number" value="500000" oninput="calculateTax()">
-
                     <label for="fdRate">Interest Rate (%)</label>
                     <input id="fdRate" type="number" value="7.1" step="0.1" oninput="calculateTax()">
-
                     <label for="fdYears">Tenure (Years)</label>
                     <input id="fdYears" type="number" value="5" oninput="calculateTax()">
-
                     <div class="row"><span>Total Interest</span><span id="fdTotalInterest">₹0</span></div>
                     <div class="row"><span>Annual Interest</span><span id="fdAnnualYield">₹0</span></div>
                 </div>
-
                 <div class="section">
                     <h3>Capital Gains</h3>
                     <label for="ltcg">LTCG</label>
@@ -279,7 +210,6 @@ input{
                     <label for="stcg">STCG</label>
                     <input id="stcg" type="number" value="50000" oninput="calculateTax()">
                 </div>
-
                 <div class="section">
                     <h3>Business Income</h3>
                     <label for="fno">F&O Profit</label>
@@ -290,8 +220,6 @@ input{
                     <input id="otherBiz" type="number" value="120000" oninput="calculateTax()">
                 </div>
             </div>
-
-            <!-- COLUMN 2: REVENUE SUMMARY -->
             <div class="card">
                 <h2>Revenue Summary</h2>
                 <div class="row"><span>Gross Salary</span><span id="grossSalary" class="green">₹0</span></div>
@@ -305,10 +233,8 @@ input{
                     <h1 id="netIncome">₹0</h1>
                 </div>
             </div>
-
-            <!-- COLUMN 3: TAX SPLIT -->
             <div class="card">
-                <h2>Tax Split</h2>
+                <h2>New Regime Tax Split</h2>
                 <div class="row"><span>5% Slab Tax</span><span id="lblSlab2" class="blue">₹0</span></div>
                 <div class="row"><span>10% Slab Tax</span><span id="lblSlab3" class="blue">₹0</span></div>
                 <div class="row"><span>15% Slab Tax</span><span id="lblSlab4" class="blue">₹0</span></div>
@@ -318,10 +244,12 @@ input{
                     <h3>Net Slab Tax</h3>
                     <h2 id="slabTax">₹0</h2>
                 </div>
-                <div class="row"><span>STCG Tax (20%)</span><span id="stcgTax">₹0</span></div>
-                <div class="row"><span>LTCG Tax (12.5%)</span><span id="ltcgTax">₹0</span></div>
-                <div class="row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
-                <div class="row"><span>Cess (4%)</span><span id="cess">₹0</span></div>
+                <div style="margin-top:15px">
+                    <div class="row"><span>STCG Tax (20%)</span><span id="stcgTax">₹0</span></div>
+                    <div class="row"><span>LTCG Tax (12.5%)</span><span id="ltcgTax">₹0</span></div>
+                    <div class="row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+                    <div class="row"><span>Cess (4%)</span><span id="cess">₹0</span></div>
+                </div>
                 <div class="total-box">
                     <div>TOTAL TAX PAYABLE</div>
                     <h1 id="totalTax">₹0</h1>
@@ -329,18 +257,112 @@ input{
             </div>
         </div>
     </div>
-
-    <!-- TAB 2: C++ -->
+    <!-- PORTFOLIO PLACEHOLDERS -->
     <div id="cpp-tab" class="tab-content">
         <div class="portfolio-card">
-            <h2>C++ Development Projects</h2>
-            <p>Welcome to the C++ showcase workspace module. Place descriptions of your data structures, algorithms, or high-performance systems engineering blocks here.</p>
-            <div class="code-block">#include &lt;iostream&gt;
-int main() {
-    std::cout << "High-Performance Code Module Loaded!" << std::endl;
-    return 0;
-}</div>
+            <h2>C++ Projects</h2>
+            <p>Content placeholder.</p>
         </div>
     </div>
+    <div id="python-tab" class="tab-content">
+        <div class="portfolio-card">
+            <h2>Python Workspace</h2>
+            <p>Content placeholder.</p>
+        </div>
+    </div>
+    <div id="ml-tab" class="tab-content">
+        <div class="portfolio-card">
+            <h2>Machine Learning</h2>
+            <p>Content placeholder.</p>
+        </div>
+    </div>
+    <div id="exp-tab" class="tab-content">
+        <div class="portfolio-card">
+            <h2>Professional Experience</h2>
+            <p>Content placeholder.</p>
+        </div>
+    </div>
+</div>
 
-    <!-- TAB 3: PYTHON -->
+<script>
+function switchTab(evt, tabId) {
+    const contents = document.getElementsByClassName("tab-content");
+    for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
+    const buttons = document.getElementsByClassName("tab-btn");
+    for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove("active");
+    document.getElementById(tabId).classList.add("active");
+    evt.currentTarget.classList.add("active");
+}
+
+function money(v) {
+    return "₹" + Math.round(v).toLocaleString("en-IN");
+}
+
+function calculateTax() {
+    let salary = parseFloat(document.getElementById("salary").value) || 0;
+    let principal = parseFloat(document.getElementById("fdPrincipal").value) || 0;
+    let rate = parseFloat(document.getElementById("fdRate").value) || 0;
+    let years = parseFloat(document.getElementById("fdYears").value) || 1;
+    let ltcg = parseFloat(document.getElementById("ltcg").value) || 0;
+    let stcg = parseFloat(document.getElementById("stcg").value) || 0;
+    let fno = parseFloat(document.getElementById("fno").value) || 0;
+    let intraday = parseFloat(document.getElementById("intraday").value) || 0;
+    let otherBiz = parseFloat(document.getElementById("otherBiz").value) || 0;
+
+    if(years <= 0) years = 1;
+    const maturity = principal * Math.pow(1 + ((rate/100)/4), 4 * years);
+    const totalInterest = Math.max(0, maturity - principal);
+    const annualInterest = totalInterest / years;
+
+    document.getElementById("fdTotalInterest").innerText = money(totalInterest);
+    document.getElementById("fdAnnualYield").innerText = money(annualInterest);
+
+    const deduction = salary > 0 ? 75000 : 0;
+    const income = Math.max(0, salary - deduction + annualInterest + fno + intraday + otherBiz);
+    let remaining = income;
+
+    remaining -= Math.min(remaining, 400000);
+    let slab2Income = Math.min(Math.max(remaining, 0), 400000); remaining -= slab2Income;
+    let slab3Income = Math.min(Math.max(remaining, 0), 400000); remaining -= slab3Income;
+    let slab4Income = Math.min(Math.max(remaining, 0), 400000); remaining -= slab4Income;
+    let slab5Income = Math.min(Math.max(remaining, 0), 400000); remaining -= slab5Income;
+    let slab6Income = Math.max(remaining, 0);
+
+    let valSlab2 = slab2Income * 0.05;
+    let valSlab3 = slab3Income * 0.10;
+    let valSlab4 = slab4Income * 0.15;
+    let valSlab5 = slab5Income * 0.20;
+    let valSlab6 = slab6Income * 0.30;
+    let slabTax = valSlab2 + valSlab3 + valSlab4 + valSlab5 + valSlab6;
+
+    if(income <= 1200000) slabTax = 0;
+
+    let stcgTax = stcg * 0.20;
+    let ltcgTax = Math.max(0, ltcg - 125000) * 0.125;
+    let subtotal = slabTax + stcgTax + ltcgTax;
+    let cess = subtotal * 0.04;
+    let totalTax = subtotal + cess;
+
+    document.getElementById("grossSalary").innerText = money(salary);
+    document.getElementById("fdIncome").innerText = money(annualInterest);
+    document.getElementById("fnoIncome").innerText = money(fno);
+    document.getElementById("intradayIncome").innerText = money(intraday);
+    document.getElementById("otherBizIncome").innerText = money(otherBiz);
+    document.getElementById("netIncome").innerText = money(income);
+
+    document.getElementById("lblSlab2").innerText = money(valSlab2);
+    document.getElementById("lblSlab3").innerText = money(valSlab3);
+    document.getElementById("lblSlab4").innerText = money(valSlab4);
+    document.getElementById("lblSlab5").innerText = money(valSlab5);
+    document.getElementById("lblSlab6").innerText = money(valSlab6);
+    document.getElementById("slabTax").innerText = money(slabTax);
+    document.getElementById("stcgTax").innerText = money(stcgTax);
+    document.getElementById("ltcgTax").innerText = money(ltcgTax);
+    document.getElementById("subtotal").innerText = money(subtotal);
+    document.getElementById("cess").innerText = money(cess);
+    document.getElementById("totalTax").innerText = money(totalTax);
+}
+calculateTax();
+</script>
+</body>
+</html>
