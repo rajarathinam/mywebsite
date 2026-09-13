@@ -1,6 +1,3 @@
-<!-- [COPY CODE BUTTON] -->
-<!-- Click the "Copy Code" option in the code frame header above to instantly copy the fixed file script. -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Income Tax Dashboard</title>
 
-<!-- Fixed Chart.js Script裝載 -->
+<!-- Chart.js Script CDN -->
 <script src="https://jsdelivr.net"></script>
 
 <style>
@@ -346,7 +343,7 @@ input{
 let taxChart = null;
 
 function calculateTax() {
-    // 1. Fetch values safely from inputs
+    // 1. Fetch live inputs using correct DOM IDs
     const salary = Math.max(0, parseFloat(document.getElementById('txtSalary').value) || 0);
     const fd = Math.max(0, parseFloat(document.getElementById('txtFd').value) || 0);
     const ltcg = Math.max(0, parseFloat(document.getElementById('txtLtcg').value) || 0);
@@ -355,7 +352,7 @@ function calculateTax() {
     const intraday = Math.max(0, parseFloat(document.getElementById('txtIntraday').value) || 0);
     const otherBiz = Math.max(0, parseFloat(document.getElementById('txtOtherBiz').value) || 0);
 
-    // 2. Compute Column 2 Summary Values
+    // 2. Column 2 Summary UI Updates
     const deduction = salary > 0 ? 75000 : 0;
     let netSlabIncome = (salary - deduction) + fd + fno + intraday + otherBiz;
     if (netSlabIncome < 0) netSlabIncome = 0;
@@ -366,3 +363,4 @@ function calculateTax() {
     document.getElementById('lblFnOAdded').innerText = '₹' + Math.round(fno).toLocaleString('en-IN');
     document.getElementById('lblIntradayAdded').innerText = '₹' + Math.round(intraday).toLocaleString('en-IN');
     document.getElementById('lblOtherBizAdded').innerText = '₹' + Math.round(otherBiz).toLocaleString('en-IN');
+    document.getElementById('lblNetSlabIncome').innerText = '₹' + Math.round(netSlabIncome).toLocaleString('en-IN');
