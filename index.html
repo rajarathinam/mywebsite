@@ -1,17 +1,243 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Simple Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator (New Regime)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --background: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #cbd5e1;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #0f172a;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid #94a3b8;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0f172a;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+        .fieldset-group {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            background: #fafafa;
+        }
+        .legend-title {
+            font-weight: bold;
+            padding: 0 8px;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .result-row.total {
+            font-weight: bold;
+            font-size: 1.15rem;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid #0f172a;
+        }
+        .slab-box {
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
+<body>
 
-    <h1>Welcome to My Website</h1>
+<div class="container">
+    <h1>Income Tax Calculator</h1>
+    
+    <div class="grid">
+        <!-- Inputs -->
+        <div class="card">
+            <div class="card-title">Income Details</div>
+            
+            <div class="form-group">
+                <label>Salary Income (₹)</label>
+                <input type="number" id="txtSalary" value="800000" oninput="calculateTax()">
+            </div>
+            
+            <div class="form-group">
+                <label>Fixed Deposit Income (₹)</label>
+                <input type="number" id="txtFd" value="35000" oninput="calculateTax()">
+            </div>
+            
+            <div class="fieldset-group">
+                <div class="legend-title">Market Investments & Capital Gains</div>
+                
+                <div class="form-group">
+                    <label>1) LTCG (₹)</label>
+                    <input type="number" id="txtLtcg" value="200000" oninput="calculateTax()">
+                </div>
+                
+                <div class="form-group">
+                    <label>2) STCG (₹)</label>
+                    <input type="number" id="txtStcg" value="50000" oninput="calculateTax()">
+                </div>
+                
+                <div class="form-group">
+                    <label>3) Options Trading (₹)</label>
+                    <input type="number" id="txtOptions" value="75000" oninput="calculateTax()">
+                </div>
+            </div>
+        </div>
 
-    <marquee behavior="scroll" direction="left" scrollamount="6">
-        This is a scrolling message using the marquee tag!
-    </marquee>
+        <!-- Outputs -->
+        <div class="card">
+            <div class="card-title">Tax Computation & Split</div>
+            
+            <div class="result-row"><span>Gross Salary Income:</span> <span id="lblGrossSalary">₹0</span></div>
+            <div class="result-row"><span>(-) Standard Deduction:</span> <span style="color:#dc2626;">-₹75,000</span></div>
+            <div class="result-row"><span>(+) Fixed Deposit Income:</span> <span id="lblFdAdded">₹0</span></div>
+            <div class="result-row"><span>(+) Options Trading Income:</span> <span id="lblOptionsAdded">₹0</span></div>
+            
+            <div class="result-row" style="font-weight:bold; margin-top:8px; border-top:1px solid var(--border); padding-top:5px;">
+                <span>Net Progressive Slab Income:</span> <span id="lblNetSlabIncome">₹0</span>
+            </div>
+            
+            <div class="slab-box" id="divSlabBreakdown"></div>
+            
+            <div class="result-row"><span>Base Slab Tax:</span> <span id="lblBaseSlabTax">₹0</span></div>
+            <div class="result-row"><span>Section 87A Rebate:</span> <span id="lblRebate" style="color:#dc2626;">-₹0</span></div>
+            <div class="result-row" style="font-weight:600;"><span>Net Progressive Tax:</span> <span id="lblFinalSlabTax">₹0</span></div>
+            
+            <div style="font-weight:bold; margin:15px 0 5px 0; font-size:0.9rem; border-top:1px dashed var(--border); padding-top:5px;">Special Tax Rates Calculation</div>
+            <div class="result-row"><span>LTCG Tax (12.5% after 1.25L free):</span> <span id="lblLtcgTax">₹0</span></div>
+            <div class="result-row"><span>STCG Tax (20% flat):</span> <span id="lblStcgTax">₹0</span></div>
+            
+            <div class="result-row" style="margin-top:10px; border-top:1px solid var(--border); padding-top:5px;"><span>Tax Subtotal:</span> <span id="lblSubtotal">₹0</span></div>
+            <div class="result-row"><span>Health & Education Cess (4%):</span> <span id="lblCess">₹0</span></div>
+            
+            <div class="result-row total"><span>Total Tax Payable:</span> <span id="lblFinalTax" style="color:var(--primary);">₹0</span></div>
+        </div>
+    </div>
+</div>
 
-    <p>Thanks for visiting. This page is hosted on GitHub Pages by Raja Rathinam.</p>
+<script>
+function calculateTax() {
+    const salary = Math.max(0, parseFloat(document.getElementById('txtSalary').value) || 0);
+    const fd = Math.max(0, parseFloat(document.getElementById('txtFd').value) || 0);
+    const ltcg = Math.max(0, parseFloat(document.getElementById('txtLtcg').value) || 0);
+    const stcg = Math.max(0, parseFloat(document.getElementById('txtStcg').value) || 0);
+    const options = Math.max(0, parseFloat(document.getElementById('txtOptions').value) || 0);
 
+    const deduction = salary > 0 ? 75000 : 0;
+    let netSlabIncome = (salary - deduction) + fd + options;
+    if (netSlabIncome < 0) netSlabIncome = 0;
+
+    const slabs = [
+        { limit: 400000, rate: 0.00, txt: "Up to 4L (0%)" },
+        { limit: 400000, rate: 0.05, txt: "4L - 8L (5%)" },
+        { limit: 400000, rate: 0.10, txt: "8L - 12L (10%)" },
+        { limit: 400000, rate: 0.15, txt: "12L - 16L (15%)" },
+        { limit: 400000, rate: 0.20, txt: "16L - 20L (20%)" },
+        { limit: Infinity, rate: 0.30, txt: "Above 20L (30%)" }
+    ];
+
+    let tempIncome = netSlabIncome;
+    let baseSlabTax = 0;
+    let slabHtml = "<strong>Progressive Split Breakdown:</strong><br/>";
+
+    for (let i = 0; i < slabs.length; i++) {
+        if (tempIncome > 0) {
+            let taxableAmount = Math.min(tempIncome, slabs[i].limit);
+            let taxValue = taxableAmount * slabs[i].rate;
+            baseSlabTax += taxValue;
+            if (taxableAmount > 0) {
+                slabHtml += `• ${slabs[i].txt}: ₹${Math.round(taxableAmount).toLocaleString('en-IN')} → Tax: ₹${Math.round(taxValue).toLocaleString('en-IN')}<br/>`;
+            }
+            tempIncome -= taxableAmount;
+        }
+    }
+    document.getElementById('divSlabBreakdown').innerHTML = slabHtml;
+
+    let rebate = 0;
+    if (netSlabIncome <= 1200000) {
+        rebate = baseSlabTax;
+    }
+    let finalSlabTax = baseSlabTax - rebate;
+
+    const stcgTax = stcg * 0.20;
+    const ltcgExempt = Math.max(0, ltcg - 125000);
+    const ltcgTax = ltcgExempt * 0.125;
+
+    const subtotal = finalSlabTax + stcgTax + ltcgTax;
+    const cess = subtotal * 0.04;
+    const totalTax = subtotal + cess;
+
+    document.getElementById('lblGrossSalary').innerText = '₹' + Math.round(salary).toLocaleString('en-IN');
+    document.getElementById('lblFdAdded').innerText = '₹' + Math.round(fd).toLocaleString('en-IN');
+    document.getElementById('lblOptionsAdded').innerText = '₹' + Math.round(options).toLocaleString('en-IN');
+    document.getElementById('lblNetSlabIncome').innerText = '₹' + Math.round(netSlabIncome).toLocaleString('en-IN');
+    document.getElementById('lblBaseSlabTax').innerText = '₹' + Math.round(baseSlabTax).toLocaleString('en-IN');
+    document.getElementById('lblRebate').innerText = '-₹' + Math.round(rebate).toLocaleString('en-IN');
+    document.getElementById('lblFinalSlabTax').innerText = '₹' + Math.round(finalSlabTax).toLocaleString('en-IN');
+    document.getElementById('lblStcgTax').innerText = '₹' + Math.round(stcgTax).toLocaleString('en-IN');
+    document.getElementById('lblLtcgTax').innerText = '₹' + Math.round(ltcgTax).toLocaleString('en-IN');
+    document.getElementById('lblSubtotal').innerText = '₹' + Math.round(subtotal).toLocaleString('en-IN');
+    document.getElementById('lblCess').innerText = '₹' + Math.round(cess).toLocaleString('en-IN');
+    document.getElementById('lblFinalTax').innerText = '₹' + Math.round(totalTax).toLocaleString('en-IN');
+}
+calculateTax();
+</script>
 </body>
 </html>
