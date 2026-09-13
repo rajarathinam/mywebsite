@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Income Tax Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Rajarathinam | Developer Workspace</title>
 
 <style>
 :root{
@@ -14,7 +14,8 @@
     --muted:#94a3b8;
     --green:#10b981;
     --red:#ef4444;
-    --blue:#60a5fa;
+    --blue:#3b82f6;
+    --tab-active:#2563eb;
 }
 
 *{
@@ -27,7 +28,7 @@
 body{
     background:var(--bg);
     color:var(--text);
-    padding:30px;
+    padding:15px;
 }
 
 .container{
@@ -37,87 +38,195 @@ body{
 
 .header{
     text-align:center;
-    margin-bottom:30px;
+    margin-bottom:20px;
 }
 
 .header h1{
-    font-size:40px;
+    font-size:28px;
+    margin-bottom:5px;
+    background: linear-gradient(135deg, #60a5fa, #2563eb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.header p{
-    color:var(--muted);
+/* TAB NAVIGATION ENGINE */
+.tab-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
 }
 
+.tab-btn {
+    background: #334155;
+    color: var(--muted);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    background: #475569;
+    color: white;
+}
+
+.tab-btn.active {
+    background: var(--tab-active);
+    color: white;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.tab-content {
+    display: none; /* Hidden by default */
+}
+
+.tab-content.active {
+    display: block; /* Visible when active */
+}
+
+/* TAX CALCULATION LAYOUT ROWS */
 .dashboard{
     display:grid;
-    grid-template-columns:1.2fr 1fr 1fr;
-    gap:20px;
+    grid-template-columns:1fr;
+    gap:16px;
 }
 
 .card{
     background:var(--card);
     border:1px solid var(--border);
-    border-radius:20px;
-    padding:24px;
+    border-radius:16px;
+    padding:16px;
+}
+
+.card h2{
+    font-size:1.25rem;
+    margin-bottom:15px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
 }
 
 .section{
     border:1px solid var(--border);
-    border-radius:12px;
-    padding:15px;
-    margin-top:15px;
+    border-radius:10px;
+    padding:12px;
+    margin-top:12px;
+}
+
+.section h3 {
+    font-size:1rem;
+    margin-bottom:10px;
 }
 
 label{
     display:block;
+    margin-bottom:4px;
     color:var(--muted);
-    margin-bottom:5px;
+    font-size:13px;
 }
 
 input{
     width:100%;
-    padding:12px;
+    padding:10px;
+    margin-bottom:12px;
     border:none;
     border-radius:8px;
     background:#334155;
     color:white;
-    margin-bottom:15px;
+    font-size:15px;
 }
 
 .row{
     display:flex;
     justify-content:space-between;
-    padding:10px 0;
+    padding:8px 0;
     border-bottom:1px solid rgba(255,255,255,.08);
+    font-size:14px;
 }
 
-.green{color:var(--green);}
-.red{color:var(--red);}
-.blue{color:var(--blue);}
+.row:last-child {
+    border-bottom:none;
+}
 
-.summary-box{
-    margin-top:20px;
-    padding:15px;
-    border-radius:12px;
+.summary{
+    margin-top:12px;
+    padding:12px;
+    border-radius:10px;
     background:#10264d;
 }
 
-.tax-total{
-    margin-top:20px;
+.summary h3 { font-size:14px; }
+.summary h1 { font-size:24px; }
+
+.total-box{
+    margin-top:15px;
     text-align:center;
-    padding:25px;
-    border-radius:15px;
+    padding:16px;
+    border-radius:12px;
     background:linear-gradient(135deg,#2563eb,#1d4ed8);
 }
 
-.tax-total h1{
-    font-size:42px;
+.total-box div { font-size:12px; font-weight:600;}
+.total-box h1{ font-size:32px; margin-top:4px;}
+
+.green{color:var(--green); font-weight:600;}
+.red{color:var(--red); font-weight:600;}
+.blue{color:var(--blue); font-weight:600;}
+
+/* PORTFOLIO CONTENT STYLING */
+.portfolio-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-@media(max-width:1200px){
+.portfolio-card h2 {
+    color: #60a5fa;
+    margin-bottom: 15px;
+}
+
+.portfolio-card p {
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.code-block {
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-family: Consolas, Monaco, monospace;
+    font-size: 14px;
+    color: #38bdf8;
+    overflow-x: auto;
+    white-space: pre;
+    margin-bottom: 20px;
+}
+
+/* RESPONSIVE LAYOUT RESPONSIVENESS */
+@media(min-width:768px){
+    body { padding:25px; }
+    .header h1 { font-size:36px; }
+    .card { padding:20px; }
+    .section { padding:15px; }
+    .total-box h1 { font-size:38px; }
+}
+
+@media(min-width:1024px){
     .dashboard{
-        grid-template-columns:1fr;
+        grid-template-columns:1.2fr 1fr 1fr;
+        gap:20px;
     }
+    .header h1{ font-size:40px; }
 }
 </style>
 </head>
@@ -126,274 +235,112 @@ input{
 
 <div class="container">
 
-<div class="header">
-    <h1>INCOME TAX DASHBOARD</h1>
-    <p>Live Revenue & Tax Split Matrix (New Regime)</p>
-</div>
-
-<div class="dashboard">
-
-<!-- COLUMN 1 -->
-
-<div class="card">
-    <h2>Input Details</h2>
-
-    <label>Salary Income</label>
-    <input id="salary" type="number" value="800000">
-
-    <label>FD Income</label>
-    <input id="fd" type="number" value="35000">
-
-    <div class="section">
-        <h3>Capital Gains</h3>
-
-        <label>LTCG</label>
-        <input id="ltcg" type="number" value="200000">
-
-        <label>STCG</label>
-        <input id="stcg" type="number" value="50000">
+    <div class="header">
+        <h1>DEVELOPER WORKSPACE</h1>
     </div>
 
-    <div class="section">
-        <h3>Business Income</h3>
-
-        <label>F&O Profit</label>
-        <input id="fno" type="number" value="75000">
-
-        <label>Intraday Profit</label>
-        <input id="intraday" type="number" value="30000">
-
-        <label>Other Business</label>
-        <input id="otherBiz" type="number" value="120000">
-    </div>
-</div>
-
-<!-- COLUMN 2 -->
-
-<div class="card">
-
-    <h2>Revenue Summary</h2>
-
-    <div class="row">
-        <span>Gross Salary</span>
-        <span id="grossSalary">₹0</span>
+    <!-- Tab Buttons Layout -->
+    <div class="tab-container">
+        <button class="tab-btn active" onclick="switchTab(event, 'tax-tab')">Income Tax Calculator</button>
+        <button class="tab-btn" onclick="switchTab(event, 'cpp-tab')">C++</button>
+        <button class="tab-btn" onclick="switchTab(event, 'python-tab')">Python</button>
+        <button class="tab-btn" onclick="switchTab(event, 'ml-tab')">Machine Learning</button>
+        <button class="tab-btn" onclick="switchTab(event, 'exp-tab')">Professional Experience</button>
     </div>
 
-    <div class="row">
-        <span>Standard Deduction</span>
-        <span class="red">-₹75,000</span>
-    </div>
+    <!-- TAB 1: INCOME TAX CALCULATOR (DEFAULT TAB) -->
+    <div id="tax-tab" class="tab-content active">
+        <div class="dashboard">
+            <!-- COLUMN 1: INPUT DETAILS -->
+            <div class="card">
+                <h2>Input Details</h2>
+                <label for="salary">Salary Income</label>
+                <input id="salary" type="number" value="800000" oninput="calculateTax()">
 
-    <div class="row">
-        <span>FD Income</span>
-        <span id="fdIncome">₹0</span>
-    </div>
+                <div class="section">
+                    <h3>Fixed Deposit Estimator</h3>
+                    <label for="fdPrincipal">Principal</label>
+                    <input id="fdPrincipal" type="number" value="500000" oninput="calculateTax()">
 
-    <div class="row">
-        <span>F&O Profit</span>
-        <span id="fnoIncome">₹0</span>
-    </div>
+                    <label for="fdRate">Interest Rate (%)</label>
+                    <input id="fdRate" type="number" value="7.1" step="0.1" oninput="calculateTax()">
 
-    <div class="row">
-        <span>Intraday Profit</span>
-        <span id="intradayIncome">₹0</span>
-    </div>
+                    <label for="fdYears">Tenure (Years)</label>
+                    <input id="fdYears" type="number" value="5" oninput="calculateTax()">
 
-    <div class="row">
-        <span>Other Business</span>
-        <span id="otherBizIncome">₹0</span>
-    </div>
+                    <div class="row"><span>Total Interest</span><span id="fdTotalInterest">₹0</span></div>
+                    <div class="row"><span>Annual Interest</span><span id="fdAnnualYield">₹0</span></div>
+                </div>
 
-    <div class="summary-box">
-        <h3>Net Progressive Income</h3>
-        <h1 id="netIncome">₹0</h1>
-    </div>
+                <div class="section">
+                    <h3>Capital Gains</h3>
+                    <label for="ltcg">LTCG</label>
+                    <input id="ltcg" type="number" value="200000" oninput="calculateTax()">
+                    <label for="stcg">STCG</label>
+                    <input id="stcg" type="number" value="50000" oninput="calculateTax()">
+                </div>
 
-</div>
+                <div class="section">
+                    <h3>Business Income</h3>
+                    <label for="fno">F&O Profit</label>
+                    <input id="fno" type="number" value="75000" oninput="calculateTax()">
+                    <label for="intraday">Intraday Profit</label>
+                    <input id="intraday" type="number" value="30000" oninput="calculateTax()">
+                    <label for="otherBiz">Other Business</label>
+                    <input id="otherBiz" type="number" value="120000" oninput="calculateTax()">
+                </div>
+            </div>
 
-<!-- COLUMN 3 -->
+            <!-- COLUMN 2: REVENUE SUMMARY -->
+            <div class="card">
+                <h2>Revenue Summary</h2>
+                <div class="row"><span>Gross Salary</span><span id="grossSalary" class="green">₹0</span></div>
+                <div class="row"><span>Standard Deduction</span><span class="red">-₹75,000</span></div>
+                <div class="row"><span>FD Annual Income</span><span id="fdIncome" class="green">₹0</span></div>
+                <div class="row"><span>F&O Profit</span><span id="fnoIncome" class="green">₹0</span></div>
+                <div class="row"><span>Intraday Profit</span><span id="intradayIncome" class="green">₹0</span></div>
+                <div class="row"><span>Other Business</span><span id="otherBizIncome" class="green">₹0</span></div>
+                <div class="summary">
+                    <h3>Net Progressive Income</h3>
+                    <h1 id="netIncome">₹0</h1>
+                </div>
+            </div>
 
-<div class="card">
-
-    <h2>New Regime Tax Split</h2>
-
-    <div class="row">
-        <span>0% Tax</span>
-        <span id="slab1">₹0</span>
-    </div>
-
-    <div class="row">
-        <span>5% Tax</span>
-        <span id="slab2">₹0</span>
-    </div>
-
-    <div class="row">
-        <span>10% Tax</span>
-        <span id="slab3">₹0</span>
-    </div>
-
-    <div class="row">
-        <span>15% Tax</span>
-        <span id="slab4">₹0</span>
-    </div>
-
-    <div class="row">
-        <span>20% Tax</span>
-        <span id="slab5">₹0</span>
-    </div>
-
-    <div class="row">
-        <span>30% Tax</span>
-        <span id="slab6">₹0</span>
-    </div>
-
-    <div class="summary-box">
-        <h3>Net Slab Tax</h3>
-        <h2 id="slabTax">₹0</h2>
-    </div>
-
-    <div style="margin-top:20px">
-
-        <div class="row">
-            <span>STCG Tax (20%)</span>
-            <span id="stcgTax">₹0</span>
+            <!-- COLUMN 3: TAX SPLIT -->
+            <div class="card">
+                <h2>Tax Split</h2>
+                <div class="row"><span>5% Slab Tax</span><span id="lblSlab2" class="blue">₹0</span></div>
+                <div class="row"><span>10% Slab Tax</span><span id="lblSlab3" class="blue">₹0</span></div>
+                <div class="row"><span>15% Slab Tax</span><span id="lblSlab4" class="blue">₹0</span></div>
+                <div class="row"><span>20% Slab Tax</span><span id="lblSlab5" class="blue">₹0</span></div>
+                <div class="row"><span>30% Slab Tax</span><span id="lblSlab6" class="blue">₹0</span></div>
+                <div class="summary">
+                    <h3>Net Slab Tax</h3>
+                    <h2 id="slabTax">₹0</h2>
+                </div>
+                <div class="row"><span>STCG Tax (20%)</span><span id="stcgTax">₹0</span></div>
+                <div class="row"><span>LTCG Tax (12.5%)</span><span id="ltcgTax">₹0</span></div>
+                <div class="row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+                <div class="row"><span>Cess (4%)</span><span id="cess">₹0</span></div>
+                <div class="total-box">
+                    <div>TOTAL TAX PAYABLE</div>
+                    <h1 id="totalTax">₹0</h1>
+                </div>
+            </div>
         </div>
-
-        <div class="row">
-            <span>LTCG Tax (12.5%)</span>
-            <span id="ltcgTax">₹0</span>
-        </div>
-
-        <div class="row">
-            <span>Subtotal</span>
-            <span id="subtotal">₹0</span>
-        </div>
-
-        <div class="row">
-            <span>Cess (4%)</span>
-            <span id="cess">₹0</span>
-        </div>
-
     </div>
 
-    <div class="tax-total">
-        <div>TOTAL TAX PAYABLE</div>
-        <h1 id="totalTax">₹0</h1>
+    <!-- TAB 2: C++ -->
+    <div id="cpp-tab" class="tab-content">
+        <div class="portfolio-card">
+            <h2>C++ Development Projects</h2>
+            <p>Welcome to the C++ showcase workspace module. Place descriptions of your data structures, algorithms, or high-performance systems engineering blocks here.</p>
+            <div class="code-block">#include &lt;iostream&gt;
+int main() {
+    std::cout << "High-Performance Code Module Loaded!" << std::endl;
+    return 0;
+}</div>
+        </div>
     </div>
 
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-function money(v){
-    return "₹" + Math.round(v).toLocaleString("en-IN");
-}
-
-function calculateTax(){
-
-    let salary   = Number(document.getElementById("salary").value) || 0;
-    let fd       = Number(document.getElementById("fd").value) || 0;
-    let ltcg     = Number(document.getElementById("ltcg").value) || 0;
-    let stcg     = Number(document.getElementById("stcg").value) || 0;
-    let fno      = Number(document.getElementById("fno").value) || 0;
-    let intraday = Number(document.getElementById("intraday").value) || 0;
-    let otherBiz = Number(document.getElementById("otherBiz").value) || 0;
-
-    const deduction = salary > 0 ? 75000 : 0;
-
-    const income =
-        Math.max(
-            0,
-            salary - deduction +
-            fd +
-            fno +
-            intraday +
-            otherBiz
-        );
-
-    let remaining = income;
-
-    const taxable1 = Math.min(remaining,400000);
-    remaining -= taxable1;
-
-    const taxable2 = Math.min(Math.max(remaining,0),400000);
-    remaining -= taxable2;
-
-    const taxable3 = Math.min(Math.max(remaining,0),400000);
-    remaining -= taxable3;
-
-    const taxable4 = Math.min(Math.max(remaining,0),400000);
-    remaining -= taxable4;
-
-    const taxable5 = Math.min(Math.max(remaining,0),400000);
-    remaining -= taxable5;
-
-    const taxable6 = Math.max(remaining,0);
-
-    const slab1 = 0;
-    const slab2 = taxable2 * 0.05;
-    const slab3 = taxable3 * 0.10;
-    const slab4 = taxable4 * 0.15;
-    const slab5 = taxable5 * 0.20;
-    const slab6 = taxable6 * 0.30;
-
-    const slabTax =
-        slab1 + slab2 + slab3 +
-        slab4 + slab5 + slab6;
-
-    const stcgTax = stcg * 0.20;
-
-    const taxableLTCG =
-        Math.max(0, ltcg - 125000);
-
-    const ltcgTax =
-        taxableLTCG * 0.125;
-
-    const subtotal =
-        slabTax +
-        stcgTax +
-        ltcgTax;
-
-    const cess =
-        subtotal * 0.04;
-
-    const total =
-        subtotal + cess;
-
-    grossSalary.innerText = money(salary);
-    fdIncome.innerText = money(fd);
-    fnoIncome.innerText = money(fno);
-    intradayIncome.innerText = money(intraday);
-    otherBizIncome.innerText = money(otherBiz);
-
-    netIncome.innerText = money(income);
-
-    document.getElementById("slab1").innerText = money(slab1);
-    document.getElementById("slab2").innerText = money(slab2);
-    document.getElementById("slab3").innerText = money(slab3);
-    document.getElementById("slab4").innerText = money(slab4);
-    document.getElementById("slab5").innerText = money(slab5);
-    document.getElementById("slab6").innerText = money(slab6);
-
-    document.getElementById("slabTax").innerText = money(slabTax);
-    document.getElementById("stcgTax").innerText = money(stcgTax);
-    document.getElementById("ltcgTax").innerText = money(ltcgTax);
-    document.getElementById("subtotal").innerText = money(subtotal);
-    document.getElementById("cess").innerText = money(cess);
-    document.getElementById("totalTax").innerText = money(total);
-}
-
-document
-.querySelectorAll("input")
-.forEach(x => x.addEventListener("input", calculateTax));
-
-calculateTax();
-
-</script>
-
-</body>
-</html>
+    <!-- TAB 3: PYTHON -->
