@@ -5,20 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Income Tax Dashboard</title>
 
-<!-- Chart.js Script CDN -->
-<script src="https://jsdelivr.net"></script>
-
 <style>
 :root{
     --bg:#0f172a;
     --card:#1e293b;
     --border:#334155;
-    --primary:#3b82f6;
-    --success:#10b981;
-    --warning:#f59e0b;
-    --danger:#ef4444;
     --text:#f8fafc;
     --muted:#94a3b8;
+    --green:#10b981;
+    --red:#ef4444;
+    --blue:#60a5fa;
 }
 
 *{
@@ -45,13 +41,11 @@ body{
 }
 
 .header h1{
-    font-size:42px;
-    margin-bottom:10px;
+    font-size:40px;
 }
 
 .header p{
     color:var(--muted);
-    font-size:18px;
 }
 
 .dashboard{
@@ -61,33 +55,10 @@ body{
 }
 
 .card{
-    background:#1e293b;
+    background:var(--card);
     border:1px solid var(--border);
     border-radius:20px;
     padding:24px;
-    box-shadow:0 10px 25px rgba(0,0,0,.25);
-}
-
-.card h2{
-    margin-bottom:20px;
-    color:#fff;
-}
-
-label{
-    display:block;
-    color:var(--muted);
-    margin-bottom:5px;
-    font-size:14px;
-}
-
-input{
-    width:100%;
-    padding:12px;
-    border-radius:8px;
-    border:none;
-    background:#334155;
-    color:white;
-    margin-bottom:15px;
 }
 
 .section{
@@ -97,7 +68,19 @@ input{
     margin-top:15px;
 }
 
-.section h3{
+label{
+    display:block;
+    color:var(--muted);
+    margin-bottom:5px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#334155;
+    color:white;
     margin-bottom:15px;
 }
 
@@ -108,59 +91,32 @@ input{
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.row:last-child{
-    border-bottom:none;
-}
-
-.green{color:#10b981; font-weight:600;}
-.red{color:#ef4444; font-weight:600;}
-.blue{color:#60a5fa; font-weight:600;}
+.green{color:var(--green);}
+.red{color:var(--red);}
+.blue{color:var(--blue);}
 
 .summary-box{
     margin-top:20px;
-    padding:20px;
+    padding:15px;
     border-radius:12px;
-    background:#0b2347;
-}
-
-.summary-box h1, .summary-box h2{
-    margin-top:10px;
+    background:#10264d;
 }
 
 .tax-total{
     margin-top:20px;
     text-align:center;
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    border-radius:16px;
     padding:25px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
 }
 
 .tax-total h1{
-    font-size:44px;
-    margin:10px 0;
-}
-
-.chart-card{
-    margin-top:20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.chart-container {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+    font-size:42px;
 }
 
 @media(max-width:1200px){
     .dashboard{
         grid-template-columns:1fr;
-    }
-
-    .header h1{
-        font-size:30px;
     }
 }
 </style>
@@ -170,197 +126,274 @@ input{
 
 <div class="container">
 
-    <div class="header">
-        <h1>INCOME TAX DASHBOARD</h1>
-        <p>Live Revenue & Tax Split Matrix (New Regime)</p>
+<div class="header">
+    <h1>INCOME TAX DASHBOARD</h1>
+    <p>Live Revenue & Tax Split Matrix (New Regime)</p>
+</div>
+
+<div class="dashboard">
+
+<!-- COLUMN 1 -->
+
+<div class="card">
+    <h2>Input Details</h2>
+
+    <label>Salary Income</label>
+    <input id="salary" type="number" value="800000">
+
+    <label>FD Income</label>
+    <input id="fd" type="number" value="35000">
+
+    <div class="section">
+        <h3>Capital Gains</h3>
+
+        <label>LTCG</label>
+        <input id="ltcg" type="number" value="200000">
+
+        <label>STCG</label>
+        <input id="stcg" type="number" value="50000">
     </div>
 
-    <div class="dashboard">
+    <div class="section">
+        <h3>Business Income</h3>
 
-        <!-- COLUMN 1: INPUT DETAILS -->
-        <div class="card">
-            <h2>Input Details</h2>
+        <label>F&O Profit</label>
+        <input id="fno" type="number" value="75000">
 
-            <label for="txtSalary">Salary Income</label>
-            <input type="number" id="txtSalary" value="800000" oninput="calculateTax()">
+        <label>Intraday Profit</label>
+        <input id="intraday" type="number" value="30000">
 
-            <label for="txtFd">Fixed Deposit Income</label>
-            <input type="number" id="txtFd" value="35000" oninput="calculateTax()">
+        <label>Other Business</label>
+        <input id="otherBiz" type="number" value="120000">
+    </div>
+</div>
 
-            <div class="section">
-                <h3>Capital Gains</h3>
-                <label for="txtLtcg">LTCG</label>
-                <input type="number" id="txtLtcg" value="200000" oninput="calculateTax()">
+<!-- COLUMN 2 -->
 
-                <label for="txtStcg">STCG</label>
-                <input type="number" id="txtStcg" value="50000" oninput="calculateTax()">
-            </div>
+<div class="card">
 
-            <div class="section">
-                <h3>Business Income</h3>
-                <label for="txtFnO">F&O Profit</label>
-                <input type="number" id="txtFnO" value="75000" oninput="calculateTax()">
+    <h2>Revenue Summary</h2>
 
-                <label for="txtIntraday">Intraday Profit</label>
-                <input type="number" id="txtIntraday" value="30000" oninput="calculateTax()">
-
-                <label for="txtOtherBiz">Other Business</label>
-                <input type="number" id="txtOtherBiz" value="120000" oninput="calculateTax()">
-            </div>
-        </div>
-
-        <!-- COLUMN 2: REVENUE SUMMARY -->
-        <div class="card">
-            <h2>Revenue Summary</h2>
-
-            <div class="row">
-                <span>Gross Salary</span>
-                <span class="green" id="lblGrossSalary">₹8,00,000</span>
-            </div>
-
-            <div class="row">
-                <span>Standard Deduction</span>
-                <span class="red" id="lblStdDeduction">-₹75,000</span>
-            </div>
-
-            <div class="row">
-                <span>FD Income</span>
-                <span class="green" id="lblFdAdded">₹35,000</span>
-            </div>
-
-            <div class="row">
-                <span>F&O Profit</span>
-                <span class="green" id="lblFnOAdded">₹75,000</span>
-            </div>
-
-            <div class="row">
-                <span>Intraday Profit</span>
-                <span class="green" id="lblIntradayAdded">₹30,000</span>
-            </div>
-
-            <div class="row">
-                <span>Other Business</span>
-                <span class="green" id="lblOtherBizAdded">₹1,20,000</span>
-            </div>
-
-            <div class="summary-box">
-                <h3>Net Progressive Income</h3>
-                <h1 id="lblNetSlabIncome">₹9,85,000</h1>
-            </div>
-
-            <div style="margin-top:20px">
-                <div class="row">
-                    <span>STCG Amount</span>
-                    <span id="lblStcgGross">₹50,000</span>
-                </div>
-                <div class="row">
-                    <span>LTCG Amount</span>
-                    <span id="lblLtcgGross">₹2,00,000</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- COLUMN 3: NEW REGIME TAX SPLIT -->
-        <div class="card">
-            <h2>New Regime Tax Split</h2>
-
-            <div class="row">
-                <span>Up to ₹4L (0%)</span>
-                <span class="blue" id="lblSlab1">₹0</span>
-            </div>
-
-            <div class="row">
-                <span>₹4L to ₹8L (5%)</span>
-                <span class="blue" id="lblSlab2">₹20,000</span>
-            </div>
-
-            <div class="row">
-                <span>₹8L to ₹12L (10%)</span>
-                <span class="blue" id="lblSlab3">₹22,000</span>
-            </div>
-            
-            <div class="row">
-                <span>₹12L to ₹16L (15%)</span>
-                <span class="blue" id="lblSlab4">₹0</span>
-            </div>
-            
-            <div class="row">
-                <span>₹16L to ₹20L (20%)</span>
-                <span class="blue" id="lblSlab5">₹0</span>
-            </div>
-            
-            <div class="row">
-                <span>Above ₹20L (30%)</span>
-                <span class="blue" id="lblSlab6">₹0</span>
-            </div>
-
-            <div class="summary-box">
-                <h3>Net Slab Tax</h3>
-                <h2 id="lblBaseSlabTax">₹42,000</h2>
-            </div>
-
-            <div style="margin-top:20px">
-                <div class="row">
-                    <span>STCG Tax (20%)</span>
-                    <span id="lblStcgTax">₹10,000</span>
-                </div>
-
-                <div class="row">
-                    <span>LTCG Tax (12.5% after 1.25L free)</span>
-                    <span id="lblLtcgTax">₹9,375</span>
-                </div>
-
-                <div class="row">
-                    <span>Tax Subtotal</span>
-                    <span id="lblSubtotal">₹61,375</span>
-                </div>
-
-                <div class="row">
-                    <span>Health & Education Cess (4%)</span>
-                    <span id="lblCess">₹2,455</span>
-                </div>
-            </div>
-
-            <div class="tax-total">
-                <div>TOTAL TAX PAYABLE</div>
-                <h1 id="lblFinalTax">₹63,830</h1>
-                <div>Including Health & Education Cess</div>
-            </div>
-        </div>
+    <div class="row">
+        <span>Gross Salary</span>
+        <span id="grossSalary">₹0</span>
     </div>
 
-    <!-- CHART CONTAINER -->
-    <div class="card chart-card">
-        <h2>Tax Composition</h2>
-        <div class="chart-container">
-            <canvas id="taxChart"></canvas>
-        </div>
+    <div class="row">
+        <span>Standard Deduction</span>
+        <span class="red">-₹75,000</span>
+    </div>
+
+    <div class="row">
+        <span>FD Income</span>
+        <span id="fdIncome">₹0</span>
+    </div>
+
+    <div class="row">
+        <span>F&O Profit</span>
+        <span id="fnoIncome">₹0</span>
+    </div>
+
+    <div class="row">
+        <span>Intraday Profit</span>
+        <span id="intradayIncome">₹0</span>
+    </div>
+
+    <div class="row">
+        <span>Other Business</span>
+        <span id="otherBizIncome">₹0</span>
+    </div>
+
+    <div class="summary-box">
+        <h3>Net Progressive Income</h3>
+        <h1 id="netIncome">₹0</h1>
     </div>
 
 </div>
 
+<!-- COLUMN 3 -->
+
+<div class="card">
+
+    <h2>New Regime Tax Split</h2>
+
+    <div class="row">
+        <span>0% Tax</span>
+        <span id="slab1">₹0</span>
+    </div>
+
+    <div class="row">
+        <span>5% Tax</span>
+        <span id="slab2">₹0</span>
+    </div>
+
+    <div class="row">
+        <span>10% Tax</span>
+        <span id="slab3">₹0</span>
+    </div>
+
+    <div class="row">
+        <span>15% Tax</span>
+        <span id="slab4">₹0</span>
+    </div>
+
+    <div class="row">
+        <span>20% Tax</span>
+        <span id="slab5">₹0</span>
+    </div>
+
+    <div class="row">
+        <span>30% Tax</span>
+        <span id="slab6">₹0</span>
+    </div>
+
+    <div class="summary-box">
+        <h3>Net Slab Tax</h3>
+        <h2 id="slabTax">₹0</h2>
+    </div>
+
+    <div style="margin-top:20px">
+
+        <div class="row">
+            <span>STCG Tax (20%)</span>
+            <span id="stcgTax">₹0</span>
+        </div>
+
+        <div class="row">
+            <span>LTCG Tax (12.5%)</span>
+            <span id="ltcgTax">₹0</span>
+        </div>
+
+        <div class="row">
+            <span>Subtotal</span>
+            <span id="subtotal">₹0</span>
+        </div>
+
+        <div class="row">
+            <span>Cess (4%)</span>
+            <span id="cess">₹0</span>
+        </div>
+
+    </div>
+
+    <div class="tax-total">
+        <div>TOTAL TAX PAYABLE</div>
+        <h1 id="totalTax">₹0</h1>
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
 <script>
-let taxChart = null;
 
-function calculateTax() {
-    // 1. Fetch live inputs using correct DOM IDs
-    const salary = Math.max(0, parseFloat(document.getElementById('txtSalary').value) || 0);
-    const fd = Math.max(0, parseFloat(document.getElementById('txtFd').value) || 0);
-    const ltcg = Math.max(0, parseFloat(document.getElementById('txtLtcg').value) || 0);
-    const stcg = Math.max(0, parseFloat(document.getElementById('txtStcg').value) || 0);
-    const fno = Math.max(0, parseFloat(document.getElementById('txtFnO').value) || 0);
-    const intraday = Math.max(0, parseFloat(document.getElementById('txtIntraday').value) || 0);
-    const otherBiz = Math.max(0, parseFloat(document.getElementById('txtOtherBiz').value) || 0);
+function money(v){
+    return "₹" + Math.round(v).toLocaleString("en-IN");
+}
 
-    // 2. Column 2 Summary UI Updates
+function calculateTax(){
+
+    let salary   = Number(document.getElementById("salary").value) || 0;
+    let fd       = Number(document.getElementById("fd").value) || 0;
+    let ltcg     = Number(document.getElementById("ltcg").value) || 0;
+    let stcg     = Number(document.getElementById("stcg").value) || 0;
+    let fno      = Number(document.getElementById("fno").value) || 0;
+    let intraday = Number(document.getElementById("intraday").value) || 0;
+    let otherBiz = Number(document.getElementById("otherBiz").value) || 0;
+
     const deduction = salary > 0 ? 75000 : 0;
-    let netSlabIncome = (salary - deduction) + fd + fno + intraday + otherBiz;
-    if (netSlabIncome < 0) netSlabIncome = 0;
 
-    document.getElementById('lblGrossSalary').innerText = '₹' + Math.round(salary).toLocaleString('en-IN');
-    document.getElementById('lblStdDeduction').innerText = salary > 0 ? '-₹75,000' : '₹0';
-    document.getElementById('lblFdAdded').innerText = '₹' + Math.round(fd).toLocaleString('en-IN');
-    document.getElementById('lblFnOAdded').innerText = '₹' + Math.round(fno).toLocaleString('en-IN');
-    document.getElementById('lblIntradayAdded').innerText = '₹' + Math.round(intraday).toLocaleString('en-IN');
-    document.getElementById('lblOtherBizAdded').innerText = '₹' + Math.round(otherBiz).toLocaleString('en-IN');
-    document.getElementById('lblNetSlabIncome').innerText = '₹' + Math.round(netSlabIncome).toLocaleString('en-IN');
+    const income =
+        Math.max(
+            0,
+            salary - deduction +
+            fd +
+            fno +
+            intraday +
+            otherBiz
+        );
+
+    let remaining = income;
+
+    const taxable1 = Math.min(remaining,400000);
+    remaining -= taxable1;
+
+    const taxable2 = Math.min(Math.max(remaining,0),400000);
+    remaining -= taxable2;
+
+    const taxable3 = Math.min(Math.max(remaining,0),400000);
+    remaining -= taxable3;
+
+    const taxable4 = Math.min(Math.max(remaining,0),400000);
+    remaining -= taxable4;
+
+    const taxable5 = Math.min(Math.max(remaining,0),400000);
+    remaining -= taxable5;
+
+    const taxable6 = Math.max(remaining,0);
+
+    const slab1 = 0;
+    const slab2 = taxable2 * 0.05;
+    const slab3 = taxable3 * 0.10;
+    const slab4 = taxable4 * 0.15;
+    const slab5 = taxable5 * 0.20;
+    const slab6 = taxable6 * 0.30;
+
+    const slabTax =
+        slab1 + slab2 + slab3 +
+        slab4 + slab5 + slab6;
+
+    const stcgTax = stcg * 0.20;
+
+    const taxableLTCG =
+        Math.max(0, ltcg - 125000);
+
+    const ltcgTax =
+        taxableLTCG * 0.125;
+
+    const subtotal =
+        slabTax +
+        stcgTax +
+        ltcgTax;
+
+    const cess =
+        subtotal * 0.04;
+
+    const total =
+        subtotal + cess;
+
+    grossSalary.innerText = money(salary);
+    fdIncome.innerText = money(fd);
+    fnoIncome.innerText = money(fno);
+    intradayIncome.innerText = money(intraday);
+    otherBizIncome.innerText = money(otherBiz);
+
+    netIncome.innerText = money(income);
+
+    document.getElementById("slab1").innerText = money(slab1);
+    document.getElementById("slab2").innerText = money(slab2);
+    document.getElementById("slab3").innerText = money(slab3);
+    document.getElementById("slab4").innerText = money(slab4);
+    document.getElementById("slab5").innerText = money(slab5);
+    document.getElementById("slab6").innerText = money(slab6);
+
+    document.getElementById("slabTax").innerText = money(slabTax);
+    document.getElementById("stcgTax").innerText = money(stcgTax);
+    document.getElementById("ltcgTax").innerText = money(ltcgTax);
+    document.getElementById("subtotal").innerText = money(subtotal);
+    document.getElementById("cess").innerText = money(cess);
+    document.getElementById("totalTax").innerText = money(total);
+}
+
+document
+.querySelectorAll("input")
+.forEach(x => x.addEventListener("input", calculateTax));
+
+calculateTax();
+
+</script>
+
+</body>
+</html>
